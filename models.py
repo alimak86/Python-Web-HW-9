@@ -1,14 +1,11 @@
 from bs4 import BeautifulSoup
 from collections import UserDict, UserList
 from abc import ABC, abstractmethod
-"""
-works with the lists obtained from the soup.find_all()
-"""
-"""
-this class is to handle work of BeautifulSoup
-"""
-FS_META_TAG = ","  ## words separator in document meta attribute
 
+FS_META_TAG = ","  ## words separator in document meta attribute
+"""
+base class for the classes required to work on the web page
+"""
 
 class Document_Base:
 
@@ -22,7 +19,9 @@ class Document_Base:
   def find_all():
     pass
 
-
+"""
+this class responsible for the extraction Author link from the web page
+"""
 class Author_Link(Document_Base):
 
   def __init__(self, response, tag_attr_list, list):
@@ -37,6 +36,9 @@ class Author_Link(Document_Base):
       output.append(element.find(self.meta)[self.href])
     return output
 
+"""
+this class is responsible for the extraction of the link to the next page on the current page
+"""
 
 class Document_Link(Document_Base):
 
@@ -51,6 +53,9 @@ class Document_Link(Document_Base):
       return None
     return element.find(self.meta)[self.href]
 
+"""
+this class is responsible for the extraction about the quote
+"""
 
 class Document_Quote(Document_Base):
 
@@ -61,6 +66,9 @@ class Document_Quote(Document_Base):
       output.append(element.text)
     return output
 
+"""
+this class is responsible for the extraction information about the author on the web page
+"""
 
 class Document_Author(Document_Base):
 
@@ -71,6 +79,9 @@ class Document_Author(Document_Base):
       output.append(element.text)
     return output
 
+"""
+this class is responsible for the informnation about the tags
+"""
 
 class Document_Tags(Document_Base):
 
@@ -106,7 +117,9 @@ class DictBase(UserDict):
     for element in self.data:
       print(element + ":" + str(self.data[element]))
 
-
+"""
+class to accumulate quote inforantion
+"""
 class Quote(DictBase):
 
   def __init__(self, tags, authorname, quote):
@@ -115,7 +128,9 @@ class Quote(DictBase):
     self.data[AUTHOR_FIELD] = authorname
     self.data[QUOTE_FIELD] = quote
 
-
+"""
+class to accumulate information about the author
+"""
 class Author(DictBase):
 
   def __init__(self, fullname, born_date, born_location, description):
